@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Initial data
 const initialPatients = [
   {
-    id: uuidv4(),
+    id: 1,
     name: 'Peter Fred',
     age: 55,
     gender: 'Male',
@@ -12,7 +12,7 @@ const initialPatients = [
     admissionDate: '2024-05-15'
   },
   {
-    id: uuidv4(),
+    id: 2,
     name: 'Hope Theophilus',
     age: 32,
     gender: 'Female',
@@ -20,7 +20,7 @@ const initialPatients = [
     admissionDate: '2022-06-20'
   },
   {
-    id: uuidv4(),
+    id: 3,
     name: 'Matthew Philip',
     age: 22,
     gender: 'Male',
@@ -28,7 +28,7 @@ const initialPatients = [
     admissionDate: '2025-06-10'
   },
   {
-    id: uuidv4(),
+    id: 4,
     name: 'Happiness Sam',
     age: 42,
     gender: 'Female',
@@ -36,7 +36,7 @@ const initialPatients = [
     admissionDate: '2025-03-26'
   },
   {
-    id: uuidv4(),
+    id: 5,
     name: 'Joy Peter',
     age: 52,
     gender: 'Female',
@@ -44,7 +44,7 @@ const initialPatients = [
     admissionDate: '2024-06-24'
   },
   {
-    id: uuidv4(),
+    id: 6,
     name: 'Donatus Jacob',
     age: 37,
     gender: 'Male',
@@ -52,7 +52,7 @@ const initialPatients = [
     admissionDate: '2023-10-02'
   },
   {
-    id: uuidv4(),
+    id: 7,
     name: 'Titus Ubon',
     age: 48,
     gender: 'Male',
@@ -60,7 +60,7 @@ const initialPatients = [
     admissionDate: '2024-12-10'
   },
   {
-    id: uuidv4(),
+    id: 7,
     name: 'Peace Leo',
     age: 22,
     gender: 'Female',
@@ -68,7 +68,7 @@ const initialPatients = [
     admissionDate: '2025-04-20'
   },
   {
-    id: uuidv4(),
+    id: 8,
     name: 'Brown Dril',
     age: 30,
     gender: 'Male',
@@ -76,7 +76,7 @@ const initialPatients = [
     admissionDate: '2021-12-22'
   },
   {
-    id: uuidv4(),
+    id: 9,
     name: 'Felix Tom',
     age: 62,
     gender: 'Male',
@@ -84,7 +84,7 @@ const initialPatients = [
     admissionDate: '2023-11-07'
   },
   {
-    id: uuidv4(),
+    id: 10,
     name: 'Monday Solomon',
     age: 72,
     gender: 'Male',
@@ -96,21 +96,7 @@ const initialPatients = [
 export const usePatientStore = create((set) => ({
   patients: initialPatients,
   
-  // Add new patient with validation
-  addPatient: (patient) => set((state) => {
-    if (!patient.name || !patient.diagnosis) {
-      console.warn('Patient must have name and diagnosis');
-      return state;
-    }
-    return { 
-      patients: [...state.patients, { 
-        ...patient,
-        id: patient.id || uuidv4(), // Ensure ID exists
-        admissionDate: patient.admissionDate || new Date().toISOString().split('T')[0]
-      }] 
-    };
-  }),
-  
+ 
   // Update patient with validation
   updatePatient: (id, updatedPatient) => set((state) => ({
     patients: state.patients.map(patient => 
@@ -123,12 +109,7 @@ export const usePatientStore = create((set) => ({
       } : patient
     )
   })),
-  
-  // Delete patient
-  deletePatient: (id) => set((state) => ({
-    patients: state.patients.filter(patient => patient.id !== id)
-  })),
-  
+
   // Optional: Get single patient
   getPatient: (id) => {
     return initialPatients.find(patient => patient.id === id);

@@ -2,36 +2,24 @@ import { useState, useEffect } from 'react';
 import { usePatientStore } from './store/store.js';
 
 const PatientModal = ({ patient, onClose, viewMode = false }) => {
-  const { addPatient, updatePatient } = usePatientStore();
+  const { updatePatient } = usePatientStore();
   const [formData, setFormData] = useState({
-    id: '',
     name: '',
     age: '',
     gender: '',
     diagnosis: '',
-    admissionDate: new Date().toISOString().split('T')[0]
+    admissionDate: ''
   });
 
-  // Initialize form data
+  // Initialize form data - now only handles existing patients
   useEffect(() => {
     if (patient) {
       setFormData({
-        id: patient.id,
         name: patient.name,
         age: patient.age,
         gender: patient.gender,
         diagnosis: patient.diagnosis,
         admissionDate: patient.admissionDate,
-      });
-    } else {
-      // Reset to empty form when adding new patient
-      setFormData({
-        id: Math.random().toString(36).substring(2, 9),
-        name: '',
-        age: '',
-        gender: '',
-        diagnosis: '',
-        admissionDate: new Date().toISOString().split('T')[0]
       });
     }
   }, [patient]);
@@ -50,16 +38,11 @@ const PatientModal = ({ patient, onClose, viewMode = false }) => {
       onClose();
       return;
     }
-
-    if (patient?.id) {
-      updatePatient(patient.id, formData);
-    } else {
-      addPatient(formData);
-    }
+    updatePatient(patient.id, formData);
     onClose();
   };
 
-  // Field configuration for dynamic rendering
+  // Field configuration
   const fields = [
     { name: 'name', label: 'Patient Name', type: 'text' },
     { name: 'age', label: 'Age', type: 'number', min: 0 },
@@ -78,7 +61,7 @@ const PatientModal = ({ patient, onClose, viewMode = false }) => {
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold">
-            {viewMode ? 'View Patient' : patient?.id ? 'Edit Patient' : 'Add Patient'}
+            {viewMode ? 'View Patient' : 'Edit Patient'} {}
           </h2>
           <button 
             onClick={onClose} 
@@ -144,7 +127,7 @@ const PatientModal = ({ patient, onClose, viewMode = false }) => {
                 type="submit"
                 className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                {patient?.id ? 'Save Changes' : 'Add Patient'}
+                Save Changes {}
               </button>
             )}
           </div>
